@@ -34,6 +34,15 @@ except Exception as e:
 
 # Define the input model (input fields for Iris features)
 class IrisFeatures(BaseModel):
+    """
+    Model for representing the features of an Iris flower.
+
+    Attributes:
+        sepal_length (float): Length of the sepal.
+        sepal_width (float): Width of the sepal.
+        petal_length (float): Length of the petal.
+        petal_width (float): Width of the petal.
+    """
     sepal_length: float
     sepal_width: float
     petal_length: float
@@ -41,6 +50,15 @@ class IrisFeatures(BaseModel):
 
 # Helper function to classify results
 def classify(num):
+    """
+    Classifies the iris flower species based on the prediction output.
+
+    Args:
+        num (float): The prediction output to classify.
+
+    Returns:
+        str: The predicted species name.
+    """
     if num < 0.5:
         return 'Setosa'
     elif num < 1.5:
@@ -51,6 +69,15 @@ def classify(num):
 # Define a single route that uses all models
 @app.post("/predict_all_models")
 async def predict_all_models(features: IrisFeatures):
+    """
+    Endpoint to predict the species of an Iris flower using multiple models.
+
+    Args:
+        features (IrisFeatures): The input features for the Iris flower.
+
+    Returns:
+        dict: A dictionary containing predictions from all available models.
+    """
     input_data = np.array([[features.sepal_length, features.sepal_width, features.petal_length, features.petal_width]])
 
     # Initialize response dictionary
@@ -76,4 +103,10 @@ async def predict_all_models(features: IrisFeatures):
 
 @app.get("/")
 async def read_index():
+    """
+    Serves the static index.html file.
+
+    Returns:
+        FileResponse: The response containing the index.html file.
+    """
     return FileResponse("static/index.html")
